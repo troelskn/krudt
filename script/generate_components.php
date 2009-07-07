@@ -40,7 +40,7 @@ function reflect_model($model_plural_name, $php) {
   return array($singluar_name, array_diff($matches2[1], array('id')));
 }
 
-$dir_generator_templates = (dirname(dirname(__FILE__)) . '/generator_templates');
+$dir_generator_templates = (dirname(__FILE__) . '/generator_templates');
 $destination_root = getcwd();
 if (console()->count_arguments() != 1) {
   echo "USAGE: " . console()->script_filename() . " [OPTIONS] model_plural_name\n";

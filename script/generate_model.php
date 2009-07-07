@@ -38,7 +38,7 @@ function replace_defaults($php, $model_fields) {
     implode(", ", $all), $php);
 }
 
-$dir_generator_templates = (dirname(dirname(__FILE__)) . '/generator_templates');
+$dir_generator_templates = (dirname(__FILE__) . '/generator_templates');
 $destination_root = getcwd();
 
 $sql_types = array(
