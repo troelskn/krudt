@@ -41,19 +41,3 @@ class TestOfGenerators extends UnitTestCase {
   }
 }
 
-class TestOfModelGenerator extends UnitTestCase {
-  function setUp() {
-    $this->sandbox_dir = dirname(__FILE__) . '/sandbox';
-    filesys()->rm_rf($this->sandbox_dir);
-    filesys()->mkdir($this->sandbox_dir);
-    filesys()->chdir($this->sandbox_dir);
-  }
-  function test_can_run_generator() {
-    $this->assertTrue(preg_match("/USAGE/", shell()->exec("../../../script/generate_model.php")));
-  }
-  function test_generates_lib_file() {
-    shell()->exec("../../../script/generate_model.php ninja");
-    $this->assertTrue(filesys()->is_file($this->sandbox_dir . '/lib/ninjas.inc.php'));
-  }
-}
-
