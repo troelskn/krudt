@@ -38,6 +38,16 @@ function replace_defaults($php, $model_fields) {
     implode(", ", $all), $php);
 }
 
+function replace_ddl($php, $model_fields, $type_map) {
+  $all = array("  id SERIAL");
+  foreach ($model_fields as $field => $type) {
+    $all[] = "  ".$field." ".$type_map[$type]." NOT NULL";
+  }
+  return str_replace(
+    "  id SERIAL",
+    implode(",\n", $all), $php);
+}
+
 $dir_generator_templates = (dirname(__FILE__) . '/generator_templates');
 $destination_root = getcwd();
 
@@ -97,4 +107,11 @@ $content = replace_accessors($content, $model_fields);
 $content = replace_defaults($content, $model_fields);
 filesys()->put_contents("$destination_root/lib/$file_name.inc.php", $content);
 
-// TODO generate ddl migration
+filesys()->mkdir_p("$destination_root/script");
+$stamp = date("YmdHis");
+$content = filesys()->get_contents($dir_generator_templates . "/script/YYYYMMDDHHIISS.php");
+$content = replace_names($content, $model_name, $model_plural_name);
+$content = replace_ddl($content, $model_fields, $sql_types);
+$migration_file_name = $destination_root."/script/".$stamp."_create_".$model_plural_name.".php";
+filesys()->put_contents($migration_file_name, $content);
+filesys()->chmod(0777, $migration_file_name);

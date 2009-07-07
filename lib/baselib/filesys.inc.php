@@ -94,6 +94,11 @@ class baselib_Filesys {
     $this->debug && print "[Filesys] chdir($path)\n";
     return chdir($path);
   }
+
+  function chmod($filename, $mode) {
+    $this->debug && print "[Filesys] chmod($filename, $mode)\n";
+    return chmod($filename, $mode);
+  }
 }
 
 class baselib_ReadonlyFilesys extends baselib_Filesys {
@@ -114,6 +119,11 @@ class baselib_ReadonlyFilesys extends baselib_Filesys {
 
   function rmdir($path) {
     $this->debug && print "[Filesys] rmdir($path)\n";
+    return true;
+  }
+
+  function chmod($filename, $mode) {
+    $this->debug && print "[Filesys] chmod($filename, $mode)\n";
     return true;
   }
 }
