@@ -9,3 +9,4 @@ Together, these gives you a basic crud scaffolding generator.
 You start by generating a model (A database table gateway). After that, you can create standard components for this.
 
 Krudt depends on pdoext for database access.
+It works with Konstrukt 2.1.1+
