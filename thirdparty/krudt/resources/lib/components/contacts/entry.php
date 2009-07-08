@@ -1,4 +1,5 @@
 <?php
+require_once 'thirdparty/krudt/lib/krudt.inc.php';
 require_once 'contacts.inc.php';
 
 class components_contacts_Entry extends k_Component {
