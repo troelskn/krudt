@@ -11,6 +11,10 @@ class components_contacts_List extends k_Component {
     $this->templates = $templates;
     $this->contacts = $contacts;
   }
+  function execute() {
+    $this->templates->loadViewHelper(new krudt_view_ViewHelper());
+    return parent::execute();
+  }
   function map($name) {
     return 'components_contacts_Entry';
   }

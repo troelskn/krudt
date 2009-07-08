@@ -10,6 +10,10 @@ class components_contacts_Entry extends k_Component {
     $this->templates = $templates;
     $this->contacts = $contacts;
   }
+  function execute() {
+    $this->templates->loadViewHelper(new krudt_view_ViewHelper());
+    return parent::execute();
+  }
   function dispatch() {
     $this->contact = $this->contacts->fetch(array('slug' => $this->name()));
     if (!$this->contact) {
