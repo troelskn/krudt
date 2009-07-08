@@ -7,7 +7,7 @@ class components_contacts_List extends k_Component {
   protected $contacts;
   protected $contact;
   protected $url_init = array('sort' => 'id', 'direction' => 'asc', 'page' => 1);
-  function __construct(TemplateFactory $templates, Contacts $contacts) {
+  function __construct(k_TemplateFactory $templates, Contacts $contacts) {
     $this->templates = $templates;
     $this->contacts = $contacts;
   }

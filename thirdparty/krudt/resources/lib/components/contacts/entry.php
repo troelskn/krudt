@@ -6,7 +6,7 @@ class components_contacts_Entry extends k_Component {
   protected $templates;
   protected $contacts;
   protected $contact;
-  function __construct(TemplateFactory $templates, Contacts $contacts) {
+  function __construct(k_TemplateFactory $templates, Contacts $contacts) {
     $this->templates = $templates;
     $this->contacts = $contacts;
   }
