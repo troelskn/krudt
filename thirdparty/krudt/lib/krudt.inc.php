@@ -18,6 +18,34 @@ function krudt_validate_email($entry, $field = 'email') {
 
 class krudt_view_ViewHelper {
   /**
+   * Genereates an opening form tag
+   */
+  function html_form_tag($view, $context, $method = 'post', $action = null) {
+    $method = strtolower($method);
+    $action = $action ? $action : $context->url();
+    $html = "";
+    $html .= '<form method="' . $view->escape($method === 'get' ? 'get' : 'post') . '" action="' . $view->escape($action) . '">';
+    if ($method !== 'get' && $method !== 'post') {
+      $html .= '<input type="hidden" name="_method" value="' . $method . '" />';
+    }
+    return $html;
+  }
+
+  /**
+   * Generates cancel/submit panel for forms.
+   */
+  function form_footer($view, $context, $submit_title = 'OK', $href_back = null) {
+    $href_back = $href_back ? $href_back : $context->url();
+    $html = "";
+    $html .= "\n" . '<p class="form-footer">';
+    $html .= "\n" . '<a href="' . $view->escape($href_back) . '">Cancel</a>';
+    $html .= "\n" . ':';
+    $html .= "\n" . '<input type="submit" value="' . $view->escape($submit_title) . '" />';
+    $html .= "\n" . '</p>';
+    return $html;
+  }
+
+  /**
    * Renders global errors for an entity.
    */
   function errors($view, $context, $entity) {
