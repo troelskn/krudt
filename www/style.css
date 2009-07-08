@@ -109,14 +109,14 @@ h2 {
 .collection tr.rowlink:hover td.actions a {
                                             visibility: visible;
                                             }
-.crud-form {
+.krudt-form {
              padding: .25em;
              margin: .25em 0;
              width: auto;
              background-color: #E0ECFF;
              }
 
-.crud-form label {
+.krudt-form label {
                    font-weight: bold;
                    color: #888;
                    display: block;

@@ -1,6 +1,6 @@
 <?php
 
-function crud_validate_slug($entry, $field = 'slug') {
+function krudt_validate_slug($entry, $field = 'slug') {
   if (!$entry->{$field}()) {
     $entry->errors[$field] = "Missing $field";
   } elseif (!preg_match('/^[a-z0-9-]+$/', $entry->{$field}())) {
@@ -8,7 +8,7 @@ function crud_validate_slug($entry, $field = 'slug') {
   }
 }
 
-function crud_validate_email($entry, $field = 'email') {
+function krudt_validate_email($entry, $field = 'email') {
   if (!$entry->{$field}()) {
     $entry->errors[$field] = "Missing $field";
   } elseif (!preg_match('/^[^\s@]+@[^\s@]+\.[^\s@]+$/', $entry->{$field}())) {
@@ -16,7 +16,7 @@ function crud_validate_email($entry, $field = 'email') {
   }
 }
 
-class crud_view_ViewHelper {
+class krudt_view_ViewHelper {
   /**
    * Renders global errors for an entity.
    */
@@ -35,7 +35,7 @@ class crud_view_ViewHelper {
    */
   function html_text_field($view, $context, $entry, $field, $label = null) {
     $label || $label = ucfirst(str_replace('_', ' ', $field));
-    $html = '  <p class="crud-form">
+    $html = '  <p class="krudt-form">
     <label for="field-' . $view->escape($field) . '">' . $view->escape($label) . '</label>
     <input type="text" id="field-' . $view->escape($field) . '" name="' . $view->escape($field) . '" value="' . $view->escape($entry->{$field}()) . '" />
 ';
@@ -51,18 +51,18 @@ class crud_view_ViewHelper {
    * Creates a `<table>` containing a collection.
    */
   function collection($view, $context, $collection, $fields = null, $row_actions = null, $collection_actions = null) {
-    return new crud_view_CollectionWidget($collection, $view, $context);
+    return new krudt_view_CollectionWidget($collection, $view, $context);
   }
 
   /**
    * Creates a pagination widget for a collection.
    */
   function paginate($view, $context, $collection, $size = 10) {
-    return new crud_view_SimplePaginateWidget($collection, $size, $view, $context);
+    return new krudt_view_SimplePaginateWidget($collection, $size, $view, $context);
   }
 }
 
-class crud_view_CollectionWidget {
+class krudt_view_CollectionWidget {
   protected $collection;
   protected $view;
   protected $context;
@@ -230,7 +230,7 @@ class crud_view_CollectionWidget {
  * Just a very simple pagination widget.
  * You might want to have a look at PEAR::Pager for some more elaborate alternatives.
  */
-class crud_view_SimplePaginateWidget {
+class krudt_view_SimplePaginateWidget {
   protected $collection;
   protected $size;
   protected $view;
