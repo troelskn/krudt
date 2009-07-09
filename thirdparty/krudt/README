@@ -19,4 +19,4 @@ INSTALL
 [pdoext](https://pdoext.googlecode.com/svn/trunk/lib)
 
 Add to wiring:
-  $bucket->setImplementation('pdo', 'pdoext_Connection');
+  $container->registerImplementation('pdo', 'pdoext_Connection');
