@@ -60,7 +60,7 @@ class generators_GenerateComponents {
         $content = $this->replace_names($content, $model_name, $model_plural_name);
         if ($entry == "form.tpl.php") {
           $content = $this->replace_form_fields($content, $model_name, $model_fields);
-        } elseif ($entry == "entry.tpl.php") {
+        } elseif ($entry == "show.tpl.php") {
           $content = $this->replace_display_fields($content, $model_name, $model_fields);
         }
         filesys()->put_contents($destination_root."/templates/".$file_name."/".$entry, $content);
@@ -79,19 +79,19 @@ class generators_GenerateComponents {
   function replace_form_fields($php, $model_name, $fields = array()) {
     $all = array();
     foreach ($fields as $field) {
-      $all[] = "<?php print \$this->html_text_field(\$entry, '".$field."'); ?>";
+      $all[] = "<?php print \$this->html_text_field(\$".$model_name.", '".$field."'); ?>";
     }
-    return str_replace("<?php print \$this->html_text_field(\$entry, 'slug'); ?>", implode("\n", $all), $php);
+    return str_replace("<?php print \$this->html_text_field(\$".$model_name.", 'slug'); ?>", implode("\n", $all), $php);
   }
 
   function replace_display_fields($php, $model_name, $fields = array()) {
     $all = array();
     foreach ($fields as $field) {
       $all[] = "  <dt>".$this->title_case($field)."</dt>
-  <dd><?php e(\$entry->".$field."()); ?></dd>";
+  <dd><?php e(\$".$model_name."->".$field."()); ?></dd>";
     }
     return str_replace("  <dt>First Name</dt>
-  <dd><?php e(\$entry->first_name()); ?></dd>", implode("\n", $all), $php);
+  <dd><?php e(\$".$model_name."->first_name()); ?></dd>", implode("\n", $all), $php);
   }
 
   function replace_fields($php, $fields = array()) {

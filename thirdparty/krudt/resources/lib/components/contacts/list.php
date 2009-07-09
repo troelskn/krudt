@@ -24,14 +24,14 @@ class components_contacts_List extends k_Component {
     return $t->render(
       $this,
       array(
-        'collection' => $this->contacts));
+        'contacts' => $this->contacts));
   }
   function wrapHtml($content) {
     $t = $this->templates->create('contacts/wrapper');
     return $t->render(
       $this,
       array(
-        'collection' => $this->contacts,
+        'contacts' => $this->contacts,
         'content' => $content));
   }
   function renderHtmlNew() {
@@ -40,7 +40,7 @@ class components_contacts_List extends k_Component {
     }
     $this->document->setTitle("New contact");
     $t = $this->templates->create('contacts/new');
-    return $this->wrapHtml($t->render($this, array('entry' => $this->contact)));
+    return $this->wrapHtml($t->render($this, array('contact' => $this->contact)));
   }
   function postForm() {
     if ($this->processNew()) {
