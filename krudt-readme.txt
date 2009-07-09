@@ -10,3 +10,13 @@ You start by generating a model (A database table gateway). After that, you can 
 
 Krudt depends on pdoext for database access.
 It works with Konstrukt 2.1.1+
+
+INSTALL
+---
+
+[konstrukt](http://konstrukt.googlecode.com/svn/trunk/lib)
+[bucket](http://github.com/troelskn/bucket/tree/master/lib)
+[pdoext](https://pdoext.googlecode.com/svn/trunk/lib)
+
+Add to wiring:
+  $bucket->setImplementation('pdo', 'pdoext_Connection');
