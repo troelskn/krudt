@@ -2,10 +2,6 @@
 <dl>
   <dt>First Name</dt>
   <dd><?php e($entry->first_name()); ?></dd>
-  <dt>Last Name</dt>
-  <dd><?php e($entry->last_name()); ?></dd>
-  <dt>Email</dt>
-  <dd><?php e($entry->email()); ?></dd>
 </dl>
 <p>
   <a href="<?php e(url('', array('edit'))); ?>">Edit entry</a>
