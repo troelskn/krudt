@@ -5,14 +5,14 @@ To use, first install Konstrukt system wide.
 
     sudo pear install http://konstrukt.googlecode.com/files/konstrukt-2.1.1.tgz
 
-grab install.sh and make it executable
+grab the installer and make it executable
 
-    wget http://github.com/troelskn/krudt/raw/1f80548cdda3ebc8fb299fddb5bfe402f69de1ba/install.sh
-    chmod +x install.sh
+    wget http://github.com/troelskn/krudt/raw/c6592010cb8257ef3733e8b35418a12419f6f9c4/krudt
+    chmod +x krudt
 
 You can now create a new project like this:
 
-    install.sh myapp
+    krudt myapp
 
 Get started by using the generators:
 
