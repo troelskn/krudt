@@ -7,7 +7,7 @@ To use, first install Konstrukt system wide.
 
 grab the installer and make it executable
 
-    wget http://github.com/troelskn/krudt/raw/c6592010cb8257ef3733e8b35418a12419f6f9c4/krudt
+    wget http://github.com/troelskn/krudt/raw/3bd7b245c8374df3e3a91227b680c71e550f4c63/krudt
     chmod +x krudt
 
 You can now create a new project like this:
