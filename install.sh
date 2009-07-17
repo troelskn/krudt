@@ -1,4 +1,22 @@
 #!/bin/sh
+if [ -z `which svn` ]
+then
+    echo "Missing svn"
+    exit 255
+fi
+
+if [ -z `which wget` ]
+then
+    echo "Missing wget"
+    exit 255
+fi
+
+if [ -z `which tar` ]
+then
+    echo "Missing tar"
+    exit 255
+fi
+
 if [ $# != 1 ]
 then
   echo "USAGE: $0 NAME"
@@ -34,3 +52,4 @@ chmod 777 log
 chmod 777 var
 cd ..
 set +v
+echo "Done krudtifying. You should delete $1/install.sh"
