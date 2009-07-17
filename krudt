@@ -40,16 +40,28 @@ set -v
 # Pull Konstrukt starterpack
 svn export http://konstrukt.googlecode.com/svn/trunk/examples/starterpack_default $1
 cd $1
+
 # Pull krudt addon
-cp -rf /home/tkn/public/krudt/* .
-# Pull git://github.com/troelskn/bucket.git
+git clone git://github.com/troelskn/krudt.git var/krudt.git.$$
+rm -rf var/krudt.git.$$/.git
+cp -r var/krudt.git.$$/* .
+rm -rf var/krudt.git.$$
+
+# Pull bucket
 mkdir -p thirdparty/bucket
-wget -q -O - http://github.com/troelskn/bucket/tarball/master | tar -xz -C thirdparty/bucket
-# Pull https://pdoext.googlecode.com/svn/trunk
+git clone git://github.com/troelskn/bucket.git var/bucket.git.$$
+rm -rf var/bucket.git.$$/.git
+cp -r var/bucket.git.$$/* thirdparty/bucket
+rm -rf var/bucket.git.$$
+
+# Pull pdoext
 svn export https://pdoext.googlecode.com/svn/trunk thirdparty/pdoext
+
 # Set file permissions
 chmod 777 log
 chmod 777 var
+# Remove installer
+rm krudt
 cd ..
 set +v
-echo "Done krudtifying. You should delete $1/install.sh"
+echo "Krudt application created in $1"
