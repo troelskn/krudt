@@ -12,6 +12,7 @@ function shell($replacement = null) {
 
 class baselib_Shell {
   protected $debug = false;
+  protected $dry = false;
 
   function enable_debug() {
     $this->debug = true;
@@ -19,6 +20,14 @@ class baselib_Shell {
 
   function disable_debug() {
     $this->debug = false;
+  }
+
+  function enable_dry() {
+    $this->dry = true;
+  }
+
+  function disable_dry() {
+    $this->dry = false;
   }
 
   /**
@@ -34,7 +43,7 @@ class baselib_Shell {
       return $this->exec_bound($command, $func_args[0]);
     }
     $func_args = array_map('escapeshellarg', $func_args);
-    array_unshift($func_args, escapeshellcmd($command));
+    array_unshift($func_args, $command);
     return $this->exec_raw(implode(" ", $func_args));
   }
 
@@ -43,24 +52,34 @@ class baselib_Shell {
    *   exec_bound('foo -m :message :file', array(':message' => 'Hello', ':file' => 'test.txt'));
    */
   function exec_bound($command, $arguments = array()) {
-    $pattern = '/'.implode('|', array_map('preg_quote', array_keys($arguments))).'/';
+    $pattern = '/('.implode('|', array_map('preg_quote', array_keys($arguments))).')/';
     $tokens = array();
-    foreach (preg_split($pattern, $command, PREG_SPLIT_DELIM_CAPTURE) as $token) {
+    foreach (preg_split($pattern, $command, -1, PREG_SPLIT_DELIM_CAPTURE) as $token) {
       if (isset($arguments[$token])) {
         $tokens[] = escapeshellarg($arguments[$token]);
       } else {
         $tokens[] = $token;
       }
     }
-    return $this->exec_raw(escapeshellcmd($command) . " " . implode('', $tokens));
+    return $this->exec_raw(implode('', $tokens));
   }
 
   function exec_raw($command) {
     if ($this->debug) {
       echo "[Shell] $command\n";
-      $output = shell_exec($command);
-      echo $output . "\n";
-      return $output;
+      if ($this->dry) {
+        echo "*Dry mode*\n";
+        return "";
+      } else {
+        $output = shell_exec($command);
+        echo $output . "\n";
+        return $output;
+      }
+
+    }
+    if ($this->dry) {
+      echo "*Dry mode*\n";
+      return "";
     }
     return shell_exec($command);
   }
