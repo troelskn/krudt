@@ -14,6 +14,7 @@ Dependencies
 --
 
 * PHP Version > 5
+* SVN and GIT
 * Konstrukt
 * pdoext
 * bucket
