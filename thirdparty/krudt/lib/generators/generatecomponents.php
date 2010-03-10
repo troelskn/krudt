@@ -62,6 +62,8 @@ class generators_GenerateComponents {
           $content = $this->replace_form_fields($content, $model_name, $model_fields);
         } elseif ($entry == "show.tpl.php") {
           $content = $this->replace_display_fields($content, $model_name, $model_fields);
+        } elseif ($entry == "list.tpl.php") {
+          $content = $this->replace_slug($content, $model_name, $slug_name);
         }
         filesys()->put_contents($destination_root."/templates/".$file_name."/".$entry, $content);
       }
@@ -79,9 +81,9 @@ class generators_GenerateComponents {
   function replace_form_fields($php, $model_name, $fields = array()) {
     $all = array();
     foreach ($fields as $field) {
-      $all[] = "<?php print \$this->html_text_field(\$".$model_name.", '".$field."'); ?>";
+      $all[] = "<?php print \$viewhelper->html_text_field(\$".$model_name.", '".$field."'); ?>";
     }
-    return str_replace("<?php print \$this->html_text_field(\$".$model_name.", 'slug'); ?>", implode("\n", $all), $php);
+    return str_replace("<?php print \$viewhelper->html_text_field(\$".$model_name.", 'slug'); ?>", implode("\n", $all), $php);
   }
 
   function replace_display_fields($php, $model_name, $fields = array()) {
@@ -106,6 +108,7 @@ class generators_GenerateComponents {
     $php = str_replace("'slug' => \$this->name()", "'".$slug_name."' => \$this->name()", $php);
     $php = str_replace("\$this->".$model_name."->slug()", "\$this->".$model_name."->".$slug_name."()", $php);
     $php = str_replace("fetch(array('slug' => \$this->name()))", "fetch(array('".$slug_name."' => \$this->name()))", $php);
+    $php = str_replace("'slug'", "'".$slug_name."'", $php);
     return $php;
   }
 
