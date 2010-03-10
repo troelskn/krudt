@@ -1,3 +1,4 @@
+<h1>Contacts</h1>
 <?php
     $fields = null;
     $rowlink = true;
