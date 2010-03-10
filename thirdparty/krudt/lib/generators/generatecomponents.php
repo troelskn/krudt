@@ -81,9 +81,9 @@ class generators_GenerateComponents {
   function replace_form_fields($php, $model_name, $fields = array()) {
     $all = array();
     foreach ($fields as $field) {
-      $all[] = "<?php print \krudt_html_text_field(\$".$model_name.", '".$field."'); ?>";
+      $all[] = "<?php print krudt_html_text_field(\$".$model_name.", '".$field."'); ?>";
     }
-    return str_replace("<?php print \krudt_html_text_field(\$".$model_name.", 'slug'); ?>", implode("\n", $all), $php);
+    return str_replace("<?php print krudt_html_text_field(\$".$model_name.", 'slug'); ?>", implode("\n", $all), $php);
   }
 
   function replace_display_fields($php, $model_name, $fields = array()) {
