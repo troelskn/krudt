@@ -15,6 +15,7 @@ require_once 'pdoext.inc.php';
 require_once 'pdoext/connection.inc.php';
 require_once 'pdoext/query.inc.php';
 require_once 'pdoext/tablegateway.php';
+require_once 'thirdparty/krudt/lib/viewhelpers.inc.php';
 date_default_timezone_set('Europe/Paris');
 
 function create_container() {

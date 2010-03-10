@@ -1,2 +1,2 @@
-<?php print $viewhelper->html_text_field($contact, 'slug'); ?>
-<?php print $viewhelper->form_footer(); ?>
+<?php print krudt_html_text_field($contact, 'slug'); ?>
+<?php print krudt_form_footer(); ?>
