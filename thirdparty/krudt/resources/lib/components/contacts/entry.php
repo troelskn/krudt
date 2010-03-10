@@ -20,7 +20,7 @@ class components_contacts_Entry extends k_Component {
   function renderHtml() {
     $this->document->setTitle($this->contact->slug());
     $t = $this->templates->create("contacts/show");
-    return $t->render($this, array('contact' => $this->contact, 'viewhelper' => new krudt_view_ViewHelper));
+    return $t->render($this, array('contact' => $this->contact, 'viewhelper' => $this->viewHelper()));
   }
   function renderJson() {
     return $this->contact->getArrayCopy();
@@ -38,7 +38,7 @@ class components_contacts_Entry extends k_Component {
   function renderHtmlEdit() {
     $this->document->setTitle("Edit " . $this->contact->display_name());
     $t = $this->templates->create("contacts/edit");
-    return $t->render($this, array('contact' => $this->contact, 'viewhelper' => new krudt_view_ViewHelper));
+    return $t->render($this, array('contact' => $this->contact, 'viewhelper' => $this->viewHelper()));
   }
   function putForm() {
     if ($this->processUpdate()) {
@@ -63,5 +63,8 @@ class components_contacts_Entry extends k_Component {
       return new k_SeeOther($this->url('..'));
     }
     return $this->render();
+  }
+  function viewHelper() {
+      return new krudt_view_ViewHelper($this);
   }
 }

@@ -18,13 +18,20 @@ function krudt_validate_email($entry, $field = 'email') {
 
 class krudt_view_ViewHelper {
   /**
+   * Escapes input
+   */
+  function escape($phrase) {
+      return htmlentities($phrase);
+  }
+
+  /**
    * Genereates an opening form tag
    */
-  function html_form_tag($view, $context, $method = 'post', $action = null) {
+  function html_form_tag($method = 'post', $action = null) {
     $method = strtolower($method);
-    $action = $action ? $action : $context->url();
+    $action = $action ? $action : $this->context->url();
     $html = "";
-    $html .= '<form method="' . $view->escape($method === 'get' ? 'get' : 'post') . '" action="' . $view->escape($action) . '">';
+    $html .= '<form method="' . $this->escape($method === 'get' ? 'get' : 'post') . '" action="' . $view->escape($action) . '">';
     if ($method !== 'get' && $method !== 'post') {
       $html .= '<input type="hidden" name="_method" value="' . $method . '" />';
     }
@@ -34,13 +41,13 @@ class krudt_view_ViewHelper {
   /**
    * Generates cancel/submit panel for forms.
    */
-  function form_footer($view, $context, $submit_title = 'OK', $href_back = null) {
-    $href_back = $href_back ? $href_back : $context->url();
+  function form_footer($submit_title = 'OK', $href_back = null) {
+    $href_back = $href_back ? $href_back : $this->context->url();
     $html = "";
     $html .= "\n" . '<p class="form-footer">';
-    $html .= "\n" . '<a href="' . $view->escape($href_back) . '">Cancel</a>';
+    $html .= "\n" . '<a href="' . $this->escape($href_back) . '">Cancel</a>';
     $html .= "\n" . ':';
-    $html .= "\n" . '<input type="submit" value="' . $view->escape($submit_title) . '" />';
+    $html .= "\n" . '<input type="submit" value="' . $this->escape($submit_title) . '" />';
     $html .= "\n" . '</p>';
     return $html;
   }
@@ -48,11 +55,11 @@ class krudt_view_ViewHelper {
   /**
    * Renders global errors for an entity.
    */
-  function errors($view, $context, $entity) {
+  function errors($entity) {
     $html = "";
     foreach ($entity->errors as $field => $error) {
       if (!is_string($field)) {
-        $html .= "\n" . '<p style="color:red">' . $view->escape($error) . '</p>';
+        $html .= "\n" . '<p style="color:red">' . $this->escape($error) . '</p>';
       }
     }
     return $html;
@@ -61,14 +68,14 @@ class krudt_view_ViewHelper {
   /**
    * Creates a `<input type="text" />` for a record.
    */
-  function html_text_field($view, $context, $entry, $field, $label = null) {
+  function html_text_field($entry, $field, $label = null) {
     $label || $label = ucfirst(str_replace('_', ' ', $field));
     $html = '  <p class="krudt-form">
-    <label for="field-' . $view->escape($field) . '">' . $view->escape($label) . '</label>
-    <input type="text" id="field-' . $view->escape($field) . '" name="' . $view->escape($field) . '" value="' . $view->escape($entry->{$field}()) . '" />
+    <label for="field-' . $this->escape($field) . '">' . $this->escape($label) . '</label>
+    <input type="text" id="field-' . $this->escape($field) . '" name="' . $this->escape($field) . '" value="' . $this->escape($entry->{$field}()) . '" />
 ';
     if (isset($entry->errors[$field])) {
-      $html .= '    <span style="display:block;color:red">' . $view->escape($entry->errors[$field]) . ' </span>
+      $html .= '    <span style="display:block;color:red">' . $this->escape($entry->errors[$field]) . ' </span>
 ';
     }
     $html .= "  </p>\n";
@@ -78,15 +85,15 @@ class krudt_view_ViewHelper {
   /**
    * Creates a `<table>` containing a collection.
    */
-  function collection($view, $context, $collection, $fields = null, $row_actions = null, $collection_actions = null) {
-    return new krudt_view_CollectionWidget($collection, $view, $context);
+  function collection($collection, $fields = null, $row_actions = null, $collection_actions = null) {
+    return new krudt_view_CollectionWidget($collection, $view, $this->context);
   }
 
   /**
    * Creates a pagination widget for a collection.
    */
-  function paginate($view, $context, $collection, $size = 10) {
-    return new krudt_view_SimplePaginateWidget($collection, $size, $view, $context);
+  function paginate($collection, $size = 10) {
+    return new krudt_view_SimplePaginateWidget($collection, $size, $view, $this->context);
   }
 }
 
