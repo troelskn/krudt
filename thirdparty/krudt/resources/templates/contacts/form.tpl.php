@@ -1,2 +1,2 @@
-<?php print $this->html_text_field($contact, 'slug'); ?>
-<?php print $this->form_footer(); ?>
+<?php print $viewhelper->html_text_field($this, $context, $contact, 'slug'); ?>
+<?php print $viewhelper->form_footer($this, $context); ?>

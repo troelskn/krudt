@@ -11,10 +11,6 @@ class components_contacts_List extends k_Component {
     $this->templates = $templates;
     $this->contacts = $contacts;
   }
-  function execute() {
-    $this->templates->loadViewHelper(new krudt_view_ViewHelper());
-    return parent::execute();
-  }
   function map($name) {
     return 'components_contacts_Entry';
   }
@@ -24,7 +20,8 @@ class components_contacts_List extends k_Component {
     return $t->render(
       $this,
       array(
-        'contacts' => $this->contacts));
+        'contacts' => $this->contacts,
+        'viewhelper' => new krudt_view_ViewHelper()));
   }
   function wrapHtml($content) {
     $t = $this->templates->create('contacts/wrapper');
@@ -32,7 +29,8 @@ class components_contacts_List extends k_Component {
       $this,
       array(
         'contacts' => $this->contacts,
-        'content' => $content));
+        'content' => $content,
+        'viewhelper' => new krudt_view_ViewHelper()));
   }
   function renderHtmlNew() {
     if (!$this->contact) {
@@ -40,7 +38,7 @@ class components_contacts_List extends k_Component {
     }
     $this->document->setTitle("New contact");
     $t = $this->templates->create('contacts/new');
-    return $this->wrapHtml($t->render($this, array('contact' => $this->contact)));
+    return $this->wrapHtml($t->render($this, array('contact' => $this->contact, 'viewhelper' => new krudt_view_ViewHelper())));
   }
   function postForm() {
     if ($this->processNew()) {
