@@ -37,7 +37,7 @@ Usage
 
 You can now create a new project like this:
 
-    krudt myapp
+    ./krudt myapp
 
 Get started by setting up the environment:
 
@@ -49,7 +49,6 @@ Edit the config/local.inc.php with the database credentials. Most people needs t
     $factory->pdo_dsn = 'mysql:host=localhost;dbname=dbname';
     $factory->pdo_username = 'dbuser';
     $factory->pdo_password = 'dbpassword';
-
 
 Use the generators:
     
