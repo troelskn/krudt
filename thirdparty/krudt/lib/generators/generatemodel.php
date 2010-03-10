@@ -94,6 +94,7 @@ class generators_GenerateModel {
     return \$this->row['$field'];
   }";
     }
+    var_dump($php);
     return str_replace(
       "  function slug() {
     return \$this->row['slug'];
