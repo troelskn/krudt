@@ -56,7 +56,7 @@ class components_contacts_Entry extends k_Component {
   function renderHtmlDelete() {
     $this->document->setTitle("Delete " . $this->contact->display_name());
     $t = $this->templates->create("contacts/delete");
-    return $t->render($this, array('contact' => $this->contact));
+    return $t->render($this, array('contact' => $this->contact, 'viewhelper' => $this->viewHelper()));
   }
   function DELETE() {
     if ($this->contacts->delete($this->contact)) {
