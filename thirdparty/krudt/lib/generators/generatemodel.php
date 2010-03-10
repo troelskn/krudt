@@ -94,10 +94,11 @@ class generators_GenerateModel {
     return \$this->row['$field'];
   }";
     }
+
     return str_replace(
       "  function slug() {
     return \$this->row['slug'];
-  }".
+  }",
       implode("\n", $all), $php);
   }
 
@@ -107,7 +108,7 @@ class generators_GenerateModel {
       $all[] = "'$field' => null";
     }
     return str_replace(
-      "'id' => null, 'slug' => null".
+      "'id' => null, 'slug' => null",
       implode(", ", $all), $php);
   }
 
