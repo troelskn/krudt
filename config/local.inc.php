@@ -11,11 +11,16 @@ foreach (scandir(dirname(dirname(__FILE__)).'/thirdparty') as $plugin) {
 // Individual sites (servers) can override it.
 require_once 'applicationfactory.php';
 require_once 'bucket.inc.php';
+require_once 'pdoext.inc.php';
+require_once 'pdoext/connection.inc.php';
+require_once 'pdoext/query.inc.php';
+require_once 'pdoext/tablegateway.php';
 date_default_timezone_set('Europe/Paris');
 
 function create_container() {
   $factory = new ApplicationFactory();
   $container = new bucket_Container($factory);
+  $container->registerImplementation('pdo', 'pdoext_Connection');
   $factory->template_dir = realpath(dirname(__FILE__) . '/../templates');
   $factory->pdo_dsn = 'mysql:host=localhost;dbname=test';
   $factory->pdo_username = 'root';
