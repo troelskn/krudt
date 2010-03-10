@@ -17,6 +17,11 @@ function krudt_validate_email($entry, $field = 'email') {
 }
 
 class krudt_view_ViewHelper {
+  protected $context;
+  function __construct($context) {
+      $this->context = $context;
+  }
+
   /**
    * Escapes input
    */
@@ -86,14 +91,14 @@ class krudt_view_ViewHelper {
    * Creates a `<table>` containing a collection.
    */
   function collection($collection, $fields = null, $row_actions = null, $collection_actions = null) {
-    return new krudt_view_CollectionWidget($collection, $view, $this->context);
+    return new krudt_view_CollectionWidget($collection, $this, $this->context);
   }
 
   /**
    * Creates a pagination widget for a collection.
    */
   function paginate($collection, $size = 10) {
-    return new krudt_view_SimplePaginateWidget($collection, $size, $view, $this->context);
+    return new krudt_view_SimplePaginateWidget($collection, $size, $this, $this->context);
   }
 }
 
@@ -107,7 +112,7 @@ class krudt_view_CollectionWidget {
   protected $collection_actions;
   protected $sort_columns = false;
   protected $paginate = null;
-  function __construct($collection, $view, $context) {
+  function __construct($collection, $context) {
     $this->collection = $collection;
     $this->view = $view;
     $this->context = $context;
@@ -178,7 +183,7 @@ class krudt_view_CollectionWidget {
     if ($has_collection_actions) {
       $html .= "\n" . '  <caption>';
       foreach ($collection_actions as $action) {
-        $html .= "\n" . '    <a href="' . $this->view->escape($this->view->url('', array($action))) . '">' . $this->view->escape($action) . '</a>';
+        $html .= "\n" . '    <a href="' . $this->view->escape($this->context->url('', array($action))) . '">' . $this->view->escape($action) . '</a>';
       }
       $html .= "\n" . '  </caption>';
     }
@@ -202,7 +207,7 @@ class krudt_view_CollectionWidget {
         } else {
           $direction = null;
         }
-        $html .= '<a href="' . $this->view->escape($this->view->url('', array('sort' => $field, 'direction' => $direction))) . '">';
+        $html .= '<a href="' . $this->view->escape($this->context->url('', array('sort' => $field, 'direction' => $direction))) . '">';
       }
       $html .= $this->view->escape($field);
       if ($this->sort_columns) {
