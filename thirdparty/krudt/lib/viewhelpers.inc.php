@@ -66,15 +66,30 @@
   }
 
   /**
-   * Creates a `<table>` containing a collection.
-   */
-  function krudt_collection($context, $collection, $slug, $fields = null, $row_actions = null, $collection_actions = null) {
-    return new krudt_view_CollectionWidget($context, $collection, $slug);
-  }
-
-  /**
    * Creates a pagination widget for a collection.
    */
   function krudt_paginate($context, $collection, $size = 10) {
-    return new krudt_view_SimplePaginateWidget($context, $collection, $size);
+    $page_size = $size;
+    $count = $collection->count();
+    $last_page = (integer) ceil($count / $page_size);
+    if ($last_page === 1) {
+      return "";
+    }
+    $page = $context->query('page', 1);
+    if ($page > $last_page) {
+      $page = $last_page;
+    }
+    if ($page < 1) {
+      $page = 1;
+    }
+    $html = "\n" . '<div class="pagination">';
+    for ($ii = 1; $ii <= $last_page; ++$ii) {
+      if ($ii == $page) {
+        $html .= "\n" . '  <span class="current">' . $ii . '</span>';
+      } else {
+        $html .= "\n" . '  <a href="' . htmlentities($context->url('', array('page' => $ii))) . '">' . $ii . '</a>';
+      }
+    }
+    $html .= "\n" . '</div>';
+    return $html;
   }
