@@ -90,8 +90,8 @@ class krudt_view_ViewHelper {
   /**
    * Creates a `<table>` containing a collection.
    */
-  function collection($collection, $fields = null, $row_actions = null, $collection_actions = null) {
-    return new krudt_view_CollectionWidget($collection, $this, $this->context);
+  function collection($collection, $slug, $fields = null, $row_actions = null, $collection_actions = null) {
+    return new krudt_view_CollectionWidget($collection, $this, $this->context, $slug);
   }
 
   /**
@@ -112,10 +112,12 @@ class krudt_view_CollectionWidget {
   protected $collection_actions;
   protected $sort_columns = false;
   protected $paginate = null;
-  function __construct($collection, $context) {
+  protected $slug;
+  function __construct($collection, $view, $context, $slug) {
     $this->collection = $collection;
     $this->view = $view;
     $this->context = $context;
+    $this->slug = $slug;
   }
   function rowlink() {
     $this->rowlink = true;
@@ -220,7 +222,7 @@ class krudt_view_CollectionWidget {
     $html .= '  <tbody>' . "\n";
     $cycle = 0;
     foreach ($selection as $entry) {
-      $slug = is_array($entry) ? $entry['slug'] : $entry->slug();
+      $slug = is_array($entry) ? $entry[$this->slug] : $entry->{$this->slug}();
       $class = $cycle++ % 2 === 0 ? 'even' : 'odd';
       if ($this->rowlink) {
         $class .= " rowlink";
