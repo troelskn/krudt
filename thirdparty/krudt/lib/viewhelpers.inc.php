@@ -68,13 +68,13 @@
   /**
    * Creates a `<table>` containing a collection.
    */
-  function krudt_collection($context, $view, $collection, $slug, $fields = null, $row_actions = null, $collection_actions = null) {
-    return new krudt_view_CollectionWidget($collection, $view, $context, $slug);
+  function krudt_collection($context, $collection, $slug, $fields = null, $row_actions = null, $collection_actions = null) {
+    return new krudt_view_CollectionWidget($collection, $context, $slug);
   }
 
   /**
    * Creates a pagination widget for a collection.
    */
-  function krudt_paginate($context, $view, $collection, $size = 10) {
-    return new krudt_view_SimplePaginateWidget($collection, $size, $view, $context);
+  function krudt_paginate($context, $collection, $size = 10) {
+    return new krudt_view_SimplePaginateWidget($collection, $size, $context);
   }

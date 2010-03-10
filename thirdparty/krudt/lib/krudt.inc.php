@@ -18,7 +18,6 @@ function krudt_validate_email($entry, $field = 'email') {
 
 class krudt_view_CollectionWidget {
   protected $collection;
-  protected $view;
   protected $context;
   protected $fields;
   protected $rowlink;
@@ -27,11 +26,13 @@ class krudt_view_CollectionWidget {
   protected $sort_columns = false;
   protected $paginate = null;
   protected $slug;
-  function __construct($collection, $view, $context, $slug) {
+  function __construct($collection, $context, $slug) {
     $this->collection = $collection;
-    $this->view = $view;
     $this->context = $context;
     $this->slug = $slug;
+  }
+  function escape($phrase) {
+      return htmlentities($phrase);
   }
   function rowlink() {
     $this->rowlink = true;
@@ -99,7 +100,7 @@ class krudt_view_CollectionWidget {
     if ($has_collection_actions) {
       $html .= "\n" . '  <caption>';
       foreach ($collection_actions as $action) {
-        $html .= "\n" . '    <a href="' . $this->view->escape($this->context->url('', array($action))) . '">' . $this->view->escape($action) . '</a>';
+        $html .= "\n" . '    <a href="' . $this->escape($this->context->url('', array($action))) . '">' . $this->escape($action) . '</a>';
       }
       $html .= "\n" . '  </caption>';
     }
@@ -123,9 +124,9 @@ class krudt_view_CollectionWidget {
         } else {
           $direction = null;
         }
-        $html .= '<a href="' . $this->view->escape($this->context->url('', array('sort' => $field, 'direction' => $direction))) . '">';
+        $html .= '<a href="' . $this->escape($this->context->url('', array('sort' => $field, 'direction' => $direction))) . '">';
       }
-      $html .= $this->view->escape($field);
+      $html .= $this->escape($field);
       if ($this->sort_columns) {
         $html .= '</a>';
       }
@@ -150,15 +151,15 @@ class krudt_view_CollectionWidget {
           $html .= ' class="sort-' . $sort_direction . '"';
         }
         if ($this->rowlink) {
-          $html .= '><a href="' . $this->view->escape($this->context->url($slug)) . '" class="rowlink">' . $this->view->escape($value) . '</a></td>' . "\n";
+          $html .= '><a href="' . $this->escape($this->context->url($slug)) . '" class="rowlink">' . $this->escape($value) . '</a></td>' . "\n";
         } else {
-          $html .= '>' . $this->view->escape($value) . '</td>' . "\n";
+          $html .= '>' . $this->escape($value) . '</td>' . "\n";
         }
       }
       if ($has_row_actions) {
         $html .= '      <td class="actions">';
         foreach ($row_actions as $action) {
-          $html .= "\n" . '        <a href="' . $this->view->escape($this->context->url($slug, array($action))) . '">' . $this->view->escape($action) . '</a>';
+          $html .= "\n" . '        <a href="' . $this->escape($this->context->url($slug, array($action))) . '">' . $this->escape($action) . '</a>';
         }
         $html .= "\n" . '      </td>' . "\n";
       }
@@ -169,7 +170,7 @@ class krudt_view_CollectionWidget {
       $html .= '  <tfoot>' . "\n";
       $html .= '    <tr>' . "\n";
       $html .= '      <td colspan="' . $colspan . '">';
-      $html .= $this->view->paginate($collection, $this->paginate);
+      $html .= $this->paginate($collection, $this->paginate);
       $html .= "\n" . '      </td>' . "\n";
       $html .= '    </tr>' . "\n";
       $html .= '  </tfoot>' . "\n";
@@ -189,16 +190,17 @@ class krudt_view_CollectionWidget {
 class krudt_view_SimplePaginateWidget {
   protected $collection;
   protected $size;
-  protected $view;
   protected $context;
-  function __construct($collection, $size, $view, $context) {
+  function __construct($collection, $size, $context) {
     $this->collection = $collection;
     $this->size = (integer) $size;
     if ($this->size < 1) {
       throw new Exception("Can't paginate with size < 1");
     }
-    $this->view = $view;
     $this->context = $context;
+  }
+  function escape($phrase) {
+      return htmlentities($phrase);
   }
   function __toString() {
     $page_size = $this->size;
@@ -219,7 +221,7 @@ class krudt_view_SimplePaginateWidget {
       if ($ii == $page) {
         $html .= "\n" . '  <span class="current">' . $ii . '</span>';
       } else {
-        $html .= "\n" . '  <a href="' . $this->view->escape($this->context->url('', array('page' => $ii))) . '">' . $ii . '</a>';
+        $html .= "\n" . '  <a href="' . $this->escape($this->context->url('', array('page' => $ii))) . '">' . $ii . '</a>';
       }
     }
     $html .= "\n" . '</div>';
