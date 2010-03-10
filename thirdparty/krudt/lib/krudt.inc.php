@@ -234,7 +234,7 @@ class krudt_view_CollectionWidget {
           $html .= ' class="sort-' . $sort_direction . '"';
         }
         if ($this->rowlink) {
-          $html .= '><a href="' . $this->view->escape($this->view->url($slug)) . '" class="rowlink">' . $this->view->escape($value) . '</a></td>' . "\n";
+          $html .= '><a href="' . $this->view->escape($this->context->url($slug)) . '" class="rowlink">' . $this->view->escape($value) . '</a></td>' . "\n";
         } else {
           $html .= '>' . $this->view->escape($value) . '</td>' . "\n";
         }
@@ -242,7 +242,7 @@ class krudt_view_CollectionWidget {
       if ($has_row_actions) {
         $html .= '      <td class="actions">';
         foreach ($row_actions as $action) {
-          $html .= "\n" . '        <a href="' . $this->view->escape($this->view->url($slug, array($action))) . '">' . $this->view->escape($action) . '</a>';
+          $html .= "\n" . '        <a href="' . $this->view->escape($this->context->url($slug, array($action))) . '">' . $this->view->escape($action) . '</a>';
         }
         $html .= "\n" . '      </td>' . "\n";
       }
