@@ -1,6 +1,9 @@
 <h1>Contacts</h1>
 <?php
     $fields = null;
+    if (is_null($fields)) {
+      $fields = $contacts->getListableColumns();
+    }
     $rowlink = true;
     $row_actions = array('edit', 'delete');
     $collection_actions = null;
@@ -22,12 +25,9 @@
       $limit = null;
       $offset = null;
     }
-    $selection = $tasks->select($limit, $offset, $sort, $sort_direction);
+    $selection = $contacts->select($limit, $offset, $sort, $sort_direction);
     if (count($selection) === 0) {
       return "";
-    }
-    if (is_null($fields)) {
-      $fields = $tasks->getListableColumns();
     }
     if (is_null($row_actions)) {
       $row_actions = array();
@@ -113,7 +113,7 @@
       $html .= '  <tfoot>' . "\n";
       $html .= '    <tr>' . "\n";
       $html .= '      <td colspan="' . $colspan . '">';
-      $html .= krudt_paginate($context, $tasks, $paginate);
+      $html .= krudt_paginate($context, $contacts, $paginate);
       $html .= "\n" . '      </td>' . "\n";
       $html .= '    </tr>' . "\n";
       $html .= '  </tfoot>' . "\n";
