@@ -10,7 +10,8 @@ class generators_GenerateModel {
     'datetime' => 'datetime',
     'decimal' => 'decimal(6,2)',
     'blob' => 'blob',
-    'boolean' => 'enum(0,1)');
+    'boolean' => 'enum(0,1)',
+    'text' => 'text');
 
   function __construct($dir_resources) {
     $this->dir_resources = $dir_resources;
