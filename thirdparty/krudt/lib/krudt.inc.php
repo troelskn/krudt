@@ -26,7 +26,7 @@ class krudt_view_CollectionWidget {
   protected $sort_columns = false;
   protected $paginate = null;
   protected $slug;
-  function __construct($collection, $context, $slug) {
+  function __construct($context, $collection, $slug) {
     $this->collection = $collection;
     $this->context = $context;
     $this->slug = $slug;
@@ -170,7 +170,7 @@ class krudt_view_CollectionWidget {
       $html .= '  <tfoot>' . "\n";
       $html .= '    <tr>' . "\n";
       $html .= '      <td colspan="' . $colspan . '">';
-      $html .= $this->paginate($collection, $this->paginate);
+      $html .= krudt_paginate($this->context, $collection, $this->paginate);
       $html .= "\n" . '      </td>' . "\n";
       $html .= '    </tr>' . "\n";
       $html .= '  </tfoot>' . "\n";
@@ -191,7 +191,7 @@ class krudt_view_SimplePaginateWidget {
   protected $collection;
   protected $size;
   protected $context;
-  function __construct($collection, $size, $context) {
+  function __construct($context, $collection, $size) {
     $this->collection = $collection;
     $this->size = (integer) $size;
     if ($this->size < 1) {
