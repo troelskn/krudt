@@ -69,12 +69,12 @@
    * Creates a `<table>` containing a collection.
    */
   function krudt_collection($context, $collection, $slug, $fields = null, $row_actions = null, $collection_actions = null) {
-    return new krudt_view_CollectionWidget($collection, $context, $slug);
+    return new krudt_view_CollectionWidget($context, $collection, $slug);
   }
 
   /**
    * Creates a pagination widget for a collection.
    */
   function krudt_paginate($context, $collection, $size = 10) {
-    return new krudt_view_SimplePaginateWidget($collection, $size, $context);
+    return new krudt_view_SimplePaginateWidget($context, $collection, $size);
   }
