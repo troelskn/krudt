@@ -55,7 +55,7 @@ cp -r var/bucket.git.$$/* thirdparty/bucket
 rm -rf var/bucket.git.$$
 
 # Pull pdoext
-svn export https://pdoext.googlecode.com/svn/trunk thirdparty/pdoext
+svn export http://pdoext.googlecode.com/svn/trunk thirdparty/pdoext
 
 # Set file permissions
 chmod 777 log
