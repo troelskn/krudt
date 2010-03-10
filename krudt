@@ -17,6 +17,12 @@ then
     exit 255
 fi
 
+if [ -z `which git` ]
+then
+    echo "Missing git"
+    exit 255
+fi
+
 if [ $# != 1 ]
 then
   echo "USAGE: $0 NAME"
