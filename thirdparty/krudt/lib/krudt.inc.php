@@ -36,7 +36,7 @@ class krudt_view_ViewHelper {
     $method = strtolower($method);
     $action = $action ? $action : $this->context->url();
     $html = "";
-    $html .= '<form method="' . $this->escape($method === 'get' ? 'get' : 'post') . '" action="' . $view->escape($action) . '">';
+    $html .= '<form method="' . $this->escape($method === 'get' ? 'get' : 'post') . '" action="' . $this->escape($action) . '">';
     if ($method !== 'get' && $method !== 'post') {
       $html .= '<input type="hidden" name="_method" value="' . $method . '" />';
     }
