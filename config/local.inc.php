@@ -23,7 +23,8 @@ function create_container() {
   $container = new bucket_Container($factory);
   $container->registerImplementation('pdo', 'pdoext_Connection');
   $factory->template_dir = realpath(dirname(__FILE__) . '/../templates');
-  $factory->pdo_dsn = 'mysql:host=localhost;dbname=test';
+  $factory->pdo_dsn = 'mysql:host=localhost;dbname=vih';
   $factory->pdo_username = 'root';
+  $factory->pdo_password = 'klan1n';
   return $container;
 }
