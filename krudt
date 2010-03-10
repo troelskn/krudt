@@ -42,7 +42,7 @@ svn export http://konstrukt.googlecode.com/svn/trunk/examples/starterpack_defaul
 cd $1
 
 # Pull krudt addon
-git clone git://github.com/troelskn/krudt.git var/krudt.git.$$
+git clone git://github.com/lsolesen/krudt.git var/krudt.git.$$
 rm -rf var/krudt.git.$$/.git
 cp -r var/krudt.git.$$/* .
 rm -rf var/krudt.git.$$

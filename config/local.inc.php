@@ -1,4 +1,12 @@
 <?php
+foreach (scandir(dirname(dirname(__FILE__)).'/thirdparty') as $plugin) {
+  if (substr($plugin, 0, 1) !== '.') {
+    set_include_path(
+      get_include_path()
+      .PATH_SEPARATOR.dirname(dirname(__FILE__)).'/thirdparty/'.$plugin.'/lib');
+  }
+}
+
 // Put default application configuration in this file.
 // Individual sites (servers) can override it.
 require_once 'applicationfactory.php';
