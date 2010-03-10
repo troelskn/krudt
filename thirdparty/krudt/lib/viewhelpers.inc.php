@@ -16,7 +16,7 @@
   /**
    * Genereates an opening form closing tag
    */
-  function krudt_form_end_tag()
+  function krudt_form_tag_end()
   {
       return '</form>';
   }
