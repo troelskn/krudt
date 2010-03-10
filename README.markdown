@@ -44,7 +44,12 @@ Get started by setting up the environment:
     cd myapp
     chmod 777 var
     
-Edit the config/local.inc.php with the database credentials.
+Edit the config/local.inc.php with the database credentials. Most people needs to have these lines:
+
+    $factory->pdo_dsn = 'mysql:host=localhost;dbname=dbname';
+    $factory->pdo_username = 'dbuser';
+    $factory->pdo_password = 'dbpassword';
+
 
 Use the generators:
     
