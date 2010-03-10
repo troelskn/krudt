@@ -28,7 +28,7 @@ class components_Root extends k_Component {
   function renderHtml() {
     $t = $this->templates->create("root");
     $modules = array();
-    foreach (scandir(__DIR__) as $name) {
+    foreach (scandir(dirname(__FILE__)) as $name) {
       if (class_exists('components_' . $name . '_List')) {
         $modules[$name] = 'components_' . $name . '_List';
       }
