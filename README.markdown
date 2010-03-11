@@ -24,7 +24,7 @@ Installation
 
 Krudt is designed to pull in all its dependencies as local copies under under `thirdparty/`. You might want to remopve these and use system-wide installs (For example, using the pear installer), but this is a good starting point, as it provides a self-contained system.
 
-Start by running `script/install`. This will init and pull in all submodules/svn-externals into thirdparty.
+Start by running `script/install`. This will init and pull in all submodules/svn-externals into `thirdparty`.
 
 Usage
 --
