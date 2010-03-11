@@ -70,12 +70,12 @@ class generators_GenerateModel {
     $content = $this->replace_defaults($content, $model_fields);
     filesys()->put_contents($destination_root."/lib/".$file_name.".inc.php", $content);
 
-    filesys()->mkdir_p($destination_root."/script/migrations");
+    filesys()->mkdir_p($destination_root."/migrations");
     $stamp = date("YmdHis");
-    $content = filesys()->get_contents($dir_generator_templates."/script/migrations/YYYYMMDDHHIISS.php");
+    $content = filesys()->get_contents($dir_generator_templates."/migrations/YYYYMMDDHHIISS.php");
     $content = $this->replace_names($content, $model_name, $model_plural_name);
     $content = $this->replace_ddl($content, $model_fields);
-    $migration_file_name = $destination_root."/script/migrations/".$stamp."_create_".$model_plural_name.".php";
+    $migration_file_name = $destination_root."/migrations/".$stamp."_create_".$model_plural_name.".php";
     filesys()->put_contents($migration_file_name, $content);
     filesys()->chmod($migration_file_name, 0777);
   }
