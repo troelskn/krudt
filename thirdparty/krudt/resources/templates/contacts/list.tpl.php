@@ -80,7 +80,7 @@
 <?php if ($has_row_actions): ?>
       <td class="actions">
 <?php foreach ($row_actions as $action): ?>
-  <?php echo krudt_html_link($context->url($slug, array($action)), $action); ?>
+  <?php echo krudt_html_link($context->url($this_slug, array($action)), $action); ?>
 <?php endforeach; ?>
       </td>
 <?php endif; ?>
