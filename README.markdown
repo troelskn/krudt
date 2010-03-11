@@ -41,15 +41,15 @@ Note that you need to manually create a database to match these details. From th
 
 Use the generators to create a model component:
     
-    php script/generate_model task title:string content:blob created:datetime completed:datetime
+    script/generate_model task title:string content:blob created:datetime completed:datetime
 
 Make sure that your database has been migrated to the new version.
 
-    php script/migrate
+    script/migrate
 
 You'd want an interface to go with this. Try running:
 
-    php script/generate_components tasks --slug=title
+    script/generate_components tasks --slug=title
 
 And you can now see a standard crud at `http://localhost/path/to/your/app/www/tasks`
 
