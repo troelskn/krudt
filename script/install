@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+echo "Creating default directories"
+if [ ! -e "var" ]
+then
+  mkdir var
+fi
+if [ ! -e "log" ]
+then
+  mkdir log
+  chmod 777 log
+fi
+if [ ! -e "migrations" ]
+then
+  mkdir migrations
+fi
+
+echo "Pulling thirdparty libraries"
+git submodule init
+git submodule update
+if [ ! -e "thirdparty/pdoext" ]
+then
+  svn export http://pdoext.googlecode.com/svn/trunk thirdparty/pdoext
+fi
+if [ ! -e "thirdparty/zf" ]
+then
+  svn export http://framework.zend.com/svn/framework/standard/tags/release-1.9.5/library/ thirdparty/zf
+fi
+
