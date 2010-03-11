@@ -34,9 +34,7 @@ You need to configure your web server to serve from the `www` folder of your pro
 
     cd /var/www && ln -s /path/to/myapp/www myapp
 
-And your application will run from:
-
-    http://localhost/myapp/
+And your application will run from `http://localhost/myapp/`
 
 Usage
 ---
