@@ -2,7 +2,7 @@
 <?php
 require_once(dirname(__FILE__) . '/../config/global.inc.php');
 $file_log = (dirname(__FILE__) . '/../var/migrations.log');
-$dir_migrations = (dirname(__FILE__) . '/migrations');
+$dir_migrations = (dirname(__FILE__) . '/../migrations');
 
 if (!file_exists($file_log)) {
   touch($file_log);

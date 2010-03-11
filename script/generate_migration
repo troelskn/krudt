@@ -1,13 +1,13 @@
 #!/usr/bin/env php
 <?php
 require_once(dirname(__FILE__) . '/../config/global.inc.php');
-$dir_migrations = (dirname(__FILE__) . '/migrations');
+$dir_migrations = (dirname(__FILE__) . '/../migrations');
 $base_name = date('YmdHis') . '.php';
 $destination_file_name = $dir_migrations . DIRECTORY_SEPARATOR . $base_name;
 
 $php = '#!/usr/bin/env php
 <?php
-require_once(dirname(__FILE__) . \'/../../config/global.inc.php\');
+require_once(dirname(__FILE__) . \'/../config/global.inc.php\');
 $container = create_container();
 //$db = $container->create(\'PDO\');
 ';
