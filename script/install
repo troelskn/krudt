@@ -22,8 +22,4 @@ if [ ! -e "thirdparty/pdoext" ]
 then
   svn export http://pdoext.googlecode.com/svn/trunk thirdparty/pdoext
 fi
-if [ ! -e "thirdparty/zf" ]
-then
-  svn export http://framework.zend.com/svn/framework/standard/tags/release-1.9.5/library/ thirdparty/zf
-fi
 
