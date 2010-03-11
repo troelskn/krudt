@@ -5,8 +5,8 @@ This is an basic crud scaffolding generator for [Konstrukt](http://konstrukt.dk)
 
 The two commands are:
     
-    script/generate_model.php
-    script/generate_components.php
+    script/generate_model
+    script/generate_components
 
 You start by generating a model (A database table gateway). After that, you can create standard components for this.
 
@@ -22,42 +22,36 @@ Dependencies
 Installation
 --
 
-To use, first install Konstrukt system wide.
+Krudt is designed to pull in all its dependencies as local copies under under `thirdparty/`. You might want to remopve these and use system-wide installs (For example, using the pear installer), but this is a good starting point, as it provides a self-contained system.
 
-    pear channel-discover pearhub.org
-    pear install pearhub/konstrukt
-
-Grab the installer and make it executable
-
-    wget http://github.com/lsolesen/krudt/raw/master/krudt
-    chmod +x krudt
+Start by running `script/install`. This will init and pull in all submodules/svn-externals into thirdparty.
 
 Usage
 --
 
-You can now create a new project like this:
-
-    ./krudt myapp
-
-Get started by setting up the environment:
-
-    cd myapp
-    chmod 777 var
-    
 Edit the config/local.inc.php with the database credentials. Most people needs to have these lines:
 
     $factory->pdo_dsn = 'mysql:host=localhost;dbname=dbname';
     $factory->pdo_username = 'dbuser';
     $factory->pdo_password = 'dbpassword';
 
-Use the generators:
+Note that you need to manually create a database to match these details. From the commandline, you can simply run:
+
+    mysql -u dbuser -p -e 'create database dbname'
+
+Use the generators to create a model component:
     
-    php script/generate_model.php task title:string content:blob created:datetime completed:datetime
-    php script/generate_components.php tasks --slug=title
+    php script/generate_model task title:string content:blob created:datetime completed:datetime
 
-Now make sure that your database has been migrated to the new version.
+Make sure that your database has been migrated to the new version.
 
-    php script/migrate.php
+    php script/migrate
+
+You'd want an interface to go with this. Try running:
+
+    php script/generate_components tasks --slug=title
+
+And you can now see a standard crud at `http://localhost/path/to/your/app/www/tasks`
 
 For more info, see [Konstrukt](http://www.konstrukt.dk)
 
