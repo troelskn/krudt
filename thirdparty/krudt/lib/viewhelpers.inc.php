@@ -1,12 +1,30 @@
 <?php
   /**
+   * Generates a link/anchortag
+   */
+  function krudt_html_link($url, $title = null, $options = array()) {
+    if ($title === null) {
+      $title = $url;
+    }
+    $options['href'] = $url;
+    $html = "<a";
+    foreach ($options as $k => $v) {
+      if ($v !== null) {
+        $html .= ' ' . escape($k) . '="' . escape($v) . '"';
+      }
+    }
+    $html .= ">".escape($title)."</a>";
+    return $html;
+  }
+
+  /**
    * Genereates an opening form tag
    */
   function krudt_html_form_tag($method = 'post', $action = null) {
     $method = strtolower($method);
     $action = $action ? $action : url();
     $html = "";
-    $html .= '<form method="' . htmlentities($method === 'get' ? 'get' : 'post') . '" action="' . htmlentities($action) . '">';
+    $html .= '<form method="' . escape($method === 'get' ? 'get' : 'post') . '" action="' . escape($action) . '">';
     if ($method !== 'get' && $method !== 'post') {
       $html .= '<input type="hidden" name="_method" value="' . $method . '" />';
     }
@@ -16,9 +34,8 @@
   /**
    * Genereates an opening form closing tag
    */
-  function krudt_form_tag_end()
-  {
-      return '</form>';
+  function krudt_form_tag_end() {
+    return '</form>';
   }
 
   /**
@@ -28,9 +45,9 @@
     $href_back = $href_back ? $href_back : url();
     $html = "";
     $html .= "\n" . '<p class="form-footer">';
-    $html .= "\n" . '<a href="' . htmlentities($href_back) . '">Cancel</a>';
+    $html .= "\n" . '<a href="' . escape($href_back) . '">Cancel</a>';
     $html .= "\n" . ':';
-    $html .= "\n" . '<input type="submit" value="' . htmlentities($submit_title) . '" />';
+    $html .= "\n" . '<input type="submit" value="' . escape($submit_title) . '" />';
     $html .= "\n" . '</p>';
     return $html;
   }
@@ -42,7 +59,7 @@
     $html = "";
     foreach ($entity->errors as $field => $error) {
       if (!is_string($field)) {
-        $html .= "\n" . '<p style="color:red">' . htmlentities($error) . '</p>';
+        $html .= "\n" . '<p style="color:red">' . escape($error) . '</p>';
       }
     }
     return $html;
@@ -54,11 +71,11 @@
   function krudt_html_text_field($entry, $field, $label = null) {
     $label || $label = ucfirst(str_replace('_', ' ', $field));
     $html = '  <p class="krudt-form">
-    <label for="field-' . htmlentities($field) . '">' . htmlentities($label) . '</label>
-    <input type="text" id="field-' . htmlentities($field) . '" name="' . htmlentities($field) . '" value="' . htmlentities($entry->{$field}()) . '" />
+    <label for="field-' . escape($field) . '">' . escape($label) . '</label>
+    <input type="text" id="field-' . escape($field) . '" name="' . escape($field) . '" value="' . escape($entry->{$field}()) . '" />
 ';
     if (isset($entry->errors[$field])) {
-      $html .= '    <span style="display:block;color:red">' . htmlentities($entry->errors[$field]) . ' </span>
+      $html .= '    <span style="display:block;color:red">' . escape($entry->errors[$field]) . ' </span>
 ';
     }
     $html .= "  </p>\n";
@@ -87,7 +104,7 @@
       if ($ii == $page) {
         $html .= "\n" . '  <span class="current">' . $ii . '</span>';
       } else {
-        $html .= "\n" . '  <a href="' . htmlentities($context->url('', array('page' => $ii))) . '">' . $ii . '</a>';
+        $html .= "\n" . '  <a href="' . escape($context->url('', array('page' => $ii))) . '">' . $ii . '</a>';
       }
     }
     $html .= "\n" . '</div>';
