@@ -1,0 +1,293 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * TODO:
+ *   Better error handling/reporting.
+ *   switch/change path
+ */
+
+class subsub_Data {
+  protected $filename;
+  protected $modules;
+  protected $hash;
+  function __construct($filename) {
+    $this->filename = $filename;
+    $this->read();
+    $this->hash = md5(serialize($this->toIni()));
+  }
+  protected function read() {
+    $this->modules = array();
+    if (is_file($this->filename)) {
+      foreach (parse_ini_file($this->filename, true) as $header => $properties) {
+        $this->modules[] = new subsub_ModuleSpec($properties);
+      }
+    }
+  }
+  function hasChanged() {
+    return $this->hash != md5(serialize($this->toIni()));
+  }
+  function write() {
+    file_put_contents($this->filename, $this->toIni());
+  }
+  function all() {
+    return $this->modules;
+  }
+  function findByPath($path) {
+    foreach ($this->modules as $module) {
+      if ($module->path() == $path) {
+        return $module;
+      }
+    }
+  }
+  function add($url, $path) {
+    $module = new subsub_ModuleSpec(array('url' => $url, 'path' => $path));
+    $this->modules[] = $module;
+    return $module;
+  }
+  function remove($module) {
+    $tmp = array();
+    foreach ($this->modules as $m) {
+      if ($m !== $module) {
+        $tmp[] = $m;
+      }
+    }
+    $this->modules = $tmp;
+  }
+  function toIni() {
+    $s = "";
+    foreach ($this->modules as $module) {
+      $s .= $module->toIni() . "\n";
+    }
+    return $s;
+  }
+}
+
+class subsub_ModuleSpec {
+  protected $properties;
+  function __construct($properties) {
+    if (!$properties['url']) {
+      throw new Exception("Error: url missing");
+    }
+    if (!$properties['path']) {
+      throw new Exception("Error: path missing");
+    }
+    $this->properties = $properties;
+  }
+  function url() {
+    return isset($this->properties['url']) ? $this->properties['url'] : null;
+  }
+  function path() {
+    return isset($this->properties['path']) ? $this->properties['path'] : null;
+  }
+  function metaPath() {
+    return $this->path() ? ($this->path() . '/.subsubmeta') : null;
+  }
+  function revision() {
+    return isset($this->properties['revision']) ? $this->properties['revision'] : null;
+  }
+  function setRevision($revision) {
+    $this->properties['revision'] = $revision;
+  }
+  function localRevision() {
+    if (is_file($this->metaPath())) {
+      $ini_values = parse_ini_file($this->metaPath());
+      return isset($ini_values['revision']) ? ((int) $ini_values['revision']) : 0;
+    }
+    return 0;
+  }
+  function shell($command) {
+    echo "[Shell] $command\n";
+    $out = shell_exec($command);
+    echo $out, "\n";
+    return $out;
+  }
+  function remoteRevision() {
+    $out = $this->shell("svn info " . escapeshellarg($this->url()));
+    if (!preg_match('/Last Changed Rev:\s+([0-9]+)/', $out, $reg)) {
+      var_dump($out);
+      throw new Exception("Unable to determine remote revision");
+    }
+    return $reg[1];
+  }
+  function pullRevision($revision) {
+    $revision = (int) $revision;
+    if (is_dir($this->path())) {
+      $this->shell("rm -rf " . escapeshellarg($this->path()));
+    }
+    $this->shell("mkdir -p " . escapeshellarg(dirname($this->path())));
+    $this->shell("svn export " . escapeshellarg($this->url()) . " -r " . escapeshellarg($revision) . " " . escapeshellarg($this->path()));
+    file_put_contents($this->metaPath(), "revision = $revision\n");
+    $this->setRevision($revision);
+  }
+  function toIni() {
+    $s = '[submodule "'.$this->path().'"]';
+    foreach ($this->properties as $key => $value) {
+      $s .= "\n  " . $key . " = " . $value;
+    }
+    return $s;
+  }
+}
+
+/**
+ * subsub manages svn-submodules for git.
+ */
+class subsub_Controller {
+  protected $modules;
+  function __construct($modules) {
+    $this->modules = $modules;
+  }
+  /**
+   * Lists all subs.
+   * @alias list
+   */
+  function index() {
+    foreach ($this->modules->all() as $module) {
+      echo $module->toIni();
+      if (!$module->revision()) {
+        echo "\n  revision = " . $module->localRevision();
+      }
+      echo "\n";
+    }
+  }
+  /**
+   * Adds a new sub.
+   * If no revision is specified, the remote repository is proped to determine the current revision.
+   */
+  function add($url, $path, $revision = null) {
+    if ($this->modules->findByPath($path)) {
+      throw new Exception("$path already exists");
+    }
+    $module = $this->modules->add($url, $path);
+    $module->setRevision($revision ? $revision : $module->remoteRevision());
+    echo "[TODO] Add $path to .gitignore\n";
+  }
+  /**
+   * Removes a sub.
+   */
+  function remove($path) {
+    $module = $this->modules->findByPath($path);
+    if (!$module) {
+      throw new Exception("$path doesn't exist");
+    }
+    $this->modules->remove($module);
+    echo "[TODO] Delete $path\n";
+    echo "[TODO] Remove $path from .gitignore\n";
+  }
+  /**
+   * Pulls down the remote repository for a sub. (Eg. exports the registered revision)
+   * If no path is supplied, all subs are pulled.
+   */
+  function pull($path = null) {
+    if (!$path) {
+      foreach ($this->modules->all() as $module) {
+        $this->pull($module->path());
+      }
+      return;
+    }
+    $module = $this->modules->findByPath($path);
+    if ($module->localRevision() != $module->revision()) {
+      $module->pullRevision($module->revision());
+    }
+  }
+  /**
+   * Upgrades the revision of a sub to the newest version or a specific revision, if specified. Also pulls the revision.
+   * If no path is supplied, all subs are upgraded.
+   */
+  function upgrade($path = null, $revision = null) {
+    if (!$path) {
+      foreach ($this->modules->all() as $module) {
+        $this->upgrade($module->path(), $revision);
+      }
+      return;
+    }
+    $module = $this->modules->findByPath($path);
+    if (!$revision) {
+      $revision = $module->remoteRevision();
+    }
+    if ($module->revision() != $revision) {
+      $module->pullRevision($revision);
+    }
+  }
+}
+
+function parse_doccomment($text) {
+  $plain =
+    preg_replace(
+      '~^\s*[*]\s*~m', '',
+      preg_replace(
+        '~[*]/$~', '',
+        preg_replace('~^/[*][*]~', '', $text)));
+  $properties = array();
+  $body = array();
+  foreach (explode("\n", $plain) as $line) {
+    if (preg_match('/^@(\w+)\s*(.*)/', $line, $reg)) {
+      $properties[$reg[1]] = $reg[2];
+    } elseif (trim($line)) {
+      $body[] = $line;
+    }
+  }
+  return array(implode("\n", $body), $properties);
+}
+
+function print_help($klass) {
+  list($body, $properties) = parse_doccomment($klass->getDocComment());
+  if ($body) {
+    echo $body, "\n\n";
+  }
+  foreach ($klass->getMethods() as $m) {
+    if (!preg_match('/^__/', $m->getName())) {
+      list($body, $properties) = parse_doccomment($m->getDocComment());
+      if (isset($properties['alias'])) {
+        $name = $properties['alias'];
+      } else {
+        $name = $m->getName();
+      }
+      $text = $name;
+      foreach ($m->getParameters() as $p) {
+        if ($p->isOptional()) {
+          $text .= " [" . strtoupper($p->getName()) . "]";
+        } else {
+          $text .= " " . strtoupper($p->getName());
+        }
+      }
+      echo str_pad($text, 32, " "), str_replace("\n", "\n" . str_repeat(" ", 32), $body), "\n";
+    }
+  }
+}
+
+error_reporting(E_ALL);
+function exception_error_handler($severity, $message, $filename, $lineno) {
+  if (error_reporting() == 0) {
+    return;
+  }
+  if (error_reporting() & $severity) {
+    throw new ErrorException($message, 0, $severity, $filename, $lineno);
+  }
+}
+set_error_handler("exception_error_handler");
+$data = new subsub_Data('.subsub');
+$controller = new subsub_Controller($data);
+switch (@$_SERVER['argv'][1]) {
+case 'list':
+  $controller->index();
+  break;
+case 'add':
+  $controller->add($_SERVER['argv'][2], $_SERVER['argv'][3], @$_SERVER['argv'][4]);
+  break;
+case 'remove':
+  $controller->remove($_SERVER['argv'][2]);
+  break;
+case 'pull':
+  $controller->pull(@$_SERVER['argv'][2]);
+  break;
+case 'upgrade':
+  $controller->upgrade(@$_SERVER['argv'][2], @$_SERVER['argv'][3]);
+  break;
+default:
+  print_help(new ReflectionClass($controller));
+}
+
+if ($data->hasChanged()) {
+  $data->write();
+}
