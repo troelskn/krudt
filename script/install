@@ -16,7 +16,6 @@ then
 fi
 
 echo "Pulling thirdparty libraries"
-git submodule init
-git submodule update
+git submodule update --init
 script/subsub pull
 
