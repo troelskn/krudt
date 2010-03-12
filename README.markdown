@@ -1,4 +1,4 @@
-Krudt - databasedriven web framework based on konstrukt
+Krudt - databasedriven web application framework
 ==
 
 Krudt is a web application framework based on [Konstrukt](http://konstrukt.dk). It provides a complete application environment with various helpers for getting started.
@@ -18,7 +18,7 @@ To create a new application, make a clone of krudt:
     cd myapp
     script/install
 
-Krudt is designed to pull in all its dependencies as local copies under under `thirdparty/`. You might want to remopve these and use system-wide installs (For example, using the pear installer), but this is a good starting point, as it provides a self-contained system.
+Krudt is designed to pull in all its dependencies as local copies under under `thirdparty/`. You might want to remove these and use system-wide installs (For example, using the pear installer), but this is a good starting point, as it provides a self-contained system.
 
 Edit the config/development.inc.php with the database credentials. Most people needs to have these lines:
 
@@ -40,7 +40,7 @@ Usage
 ---
 
 You can now use the generators to create a model component:
-    
+
     script/generate_model task title:string content:blob created:datetime completed:datetime
 
 Make sure that your database has been migrated to the new version.
@@ -51,7 +51,7 @@ You'd want an interface to go with this. Try running:
 
     script/generate_components tasks --slug=title
 
-And you can now see a standard crud at `http://localhost/myapp/tasks`
+And you can now see a standard crud interface at `http://localhost/myapp/tasks`
 
 Getting your app on github
 ---
