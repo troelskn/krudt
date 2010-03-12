@@ -40,11 +40,11 @@ class baselib_ConsoleInputParser {
     }
   }
 
-  function script_filename() {
+  function scriptFilename() {
     return $this->script_file_name;
   }
 
-  function user_name() {
+  function userName() {
     $user = posix_getpwuid(posix_getuid());
     return $user['name'];
   }
@@ -68,19 +68,19 @@ class baselib_ConsoleInputParser {
     return $default;
   }
 
-  function count_arguments() {
+  function countArguments() {
     return count($this->arguments);
   }
 
-  function arguments_as_array() {
+  function argumentsAsArray() {
     return $this->arguments;
   }
 
-  function arguments_as_string() {
-    return implode(" ", $this->get_arguments_as_array());
+  function argumentsAsString() {
+    return implode(" ", $this->argumentsAsArray());
   }
 
-  function option_boolean($name, $default = false) {
+  function optionBoolean($name, $default = false) {
     $value = $this->getOption($name, (boolean) $default);
     if (is_bool($value)) {
       return $value;
@@ -94,7 +94,7 @@ class baselib_ConsoleInputParser {
     return null;
   }
 
-  function read_input() {
+  function readInput() {
     file_get_contents('php://input');
   }
 }

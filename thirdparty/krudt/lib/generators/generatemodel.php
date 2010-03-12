@@ -26,7 +26,7 @@ class generators_GenerateModel {
 
     $regular_args = array();
     $model_fields = array();
-    foreach (console()->arguments_as_array() as $arg) {
+    foreach (console()->argumentsAsArray() as $arg) {
       if (preg_match('~(.+):(.+)~', $arg, $matches)) {
         if (!in_array($matches[2], array_keys($this->sql_types))) {
           throw new Excepion("Illegal field type: ".$matches[2]);
@@ -38,7 +38,7 @@ class generators_GenerateModel {
     }
 
     if (count($regular_args) == 0 || count($regular_args) > 2) {
-      echo "USAGE: ".console()->script_filename()." [OPTIONS] model_name [model_plural_name] [field_name:type ...]\n";
+      echo "USAGE: ".console()->scriptFilename()." [OPTIONS] model_name [model_plural_name] [field_name:type ...]\n";
       echo "OPTIONS:\n";
       echo "  --dry  Simulate all changes.\n";
       echo "type can be one of:\n";
@@ -60,7 +60,7 @@ class generators_GenerateModel {
       echo "Dry mode. No changes are actual.\n";
       filesys(new baselib_ReadonlyFilesys());
     }
-    filesys()->enable_debug();
+    filesys()->enableDebug();
     echo "Generating: model_name => ".$model_name.", model_plural_name => ".$model_plural_name.", model_fields => ".var_export($model_fields, true)."\n";
     filesys()->mkdir_p($destination_root."/lib");
 

@@ -13,11 +13,11 @@ function filesys($replacement = null) {
 class baselib_Filesys {
   protected $debug = false;
 
-  function enable_debug() {
+  function enableDebug() {
     $this->debug = true;
   }
 
-  function disable_debug() {
+  function disableDebug() {
     $this->debug = false;
   }
 

@@ -14,44 +14,44 @@ class baselib_Shell {
   protected $debug = false;
   protected $dry = false;
 
-  function enable_debug() {
+  function enableDebug() {
     $this->debug = true;
   }
 
-  function disable_debug() {
+  function disableDebug() {
     $this->debug = false;
   }
 
-  function enable_dry() {
+  function enableDry() {
     $this->dry = true;
   }
 
-  function disable_dry() {
+  function disableDry() {
     $this->dry = false;
   }
 
   /**
    * USAGE:
    *   exec('echo', 'Hello');
-   * OR (like exec_bound):
+   * OR (like execBound):
    *   exec('foo -m :message :file', array(':message' => 'Hello', ':file' => 'test.txt'));
    */
   function exec($command /*, [...]*/) {
     $func_args = func_get_args();
     array_shift($func_args);
     if (count($func_args) === 1 && is_array($func_args[0])) {
-      return $this->exec_bound($command, $func_args[0]);
+      return $this->execBound($command, $func_args[0]);
     }
     $func_args = array_map('escapeshellarg', $func_args);
     array_unshift($func_args, $command);
-    return $this->exec_raw(implode(" ", $func_args));
+    return $this->execRaw(implode(" ", $func_args));
   }
 
   /**
    * USAGE:
-   *   exec_bound('foo -m :message :file', array(':message' => 'Hello', ':file' => 'test.txt'));
+   *   execBound('foo -m :message :file', array(':message' => 'Hello', ':file' => 'test.txt'));
    */
-  function exec_bound($command, $arguments = array()) {
+  function execBound($command, $arguments = array()) {
     $pattern = '/('.implode('|', array_map('preg_quote', array_keys($arguments))).')/';
     $tokens = array();
     foreach (preg_split($pattern, $command, -1, PREG_SPLIT_DELIM_CAPTURE) as $token) {
@@ -61,10 +61,10 @@ class baselib_Shell {
         $tokens[] = $token;
       }
     }
-    return $this->exec_raw(implode('', $tokens));
+    return $this->execRaw(implode('', $tokens));
   }
 
-  function exec_raw($command) {
+  function execRaw($command) {
     if ($this->debug) {
       echo "[Shell] $command\n";
       if ($this->dry) {
@@ -93,11 +93,11 @@ class baselib_MockShell extends baselib_Shell {
     $this->mock[$regexp] = $output;
   }
 
-  function commands_invoked() {
+  function commandsInvoked() {
     return $this->commands;
   }
 
-  function exec_raw($command) {
+  function execRaw($command) {
     $this->commands[] = $command;
     foreach ($this->mock as $regexp => $stub) {
       if (preg_match($regexp, $command)) {
