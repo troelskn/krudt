@@ -2,7 +2,7 @@
   /**
    * Generates a link/anchortag
    */
-  function krudt_html_link($url, $title = null, $options = array()) {
+  function html_link($url, $title = null, $options = array()) {
     if ($title === null) {
       $title = $url;
     }
@@ -20,7 +20,7 @@
   /**
    * Genereates an opening form tag
    */
-  function krudt_html_form_tag($method = 'post', $action = null) {
+  function html_form_tag($method = 'post', $action = null) {
     $method = strtolower($method);
     $action = $action ? $action : url();
     $html = "";
@@ -34,7 +34,7 @@
   /**
    * Genereates an opening form closing tag
    */
-  function krudt_form_tag_end() {
+  function html_form_tag_end() {
     return '</form>';
   }
 
@@ -55,7 +55,7 @@
   /**
    * Renders global errors for an entity.
    */
-  function krudt_errors($entity) {
+  function form_errors($entity) {
     $html = "";
     foreach ($entity->errors as $field => $error) {
       if (!is_string($field)) {
@@ -68,7 +68,7 @@
   /**
    * Creates a `<input type="text" />` for a record.
    */
-  function krudt_html_text_field($entry, $field, $label = null) {
+  function form_text_field($entry, $field, $label = null) {
     $label || $label = ucfirst(str_replace('_', ' ', $field));
     $html = '  <p class="krudt-form">
     <label for="field-' . escape($field) . '">' . escape($label) . '</label>
@@ -85,7 +85,7 @@
   /**
    * Creates a pagination widget for a collection.
    */
-  function krudt_paginate($context, $collection, $size = 10) {
+  function collection_paginate($context, $collection, $size = 10) {
     $page_size = $size;
     $count = $collection->count();
     $last_page = (integer) ceil($count / $page_size);

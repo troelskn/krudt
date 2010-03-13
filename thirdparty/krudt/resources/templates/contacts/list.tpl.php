@@ -21,7 +21,7 @@
 <?php if ($has_collection_actions): ?>
   <caption>
 <?php foreach ($collection_actions as $action): ?>
-    <?php echo krudt_html_link($context->url('', array($action)), $action); ?>
+    <?php echo html_link($context->url('', array($action)), $action); ?>
 <?php endforeach; ?>
   </caption>
 <?php endif; ?>
@@ -45,7 +45,7 @@
 <?php if ($is_sort_field): ?>
           class="sort-<?php e($sort_direction) ?>"
 <?php endif; ?>
-      ><?php echo krudt_html_link($context->url('', array('sort' => $field, 'direction' => $direction)), $field); ?></th>
+      ><?php echo html_link($context->url('', array('sort' => $field, 'direction' => $direction)), $field); ?></th>
 <?php endforeach; ?>
 
     </tr>
@@ -71,7 +71,7 @@
           class="sort-<?php e($sort_direction) ?>"
 <?php endif; ?>
 <?php if ($rowlink): ?>
-      ><?php echo krudt_html_link($context->url($this_slug), $value, array('class' => 'rowlink')); ?>
+      ><?php echo html_link($context->url($this_slug), $value, array('class' => 'rowlink')); ?>
 </td>
 <?php else: ?>
       ><?php e($value) ?></td>
@@ -80,7 +80,7 @@
 <?php if ($has_row_actions): ?>
       <td class="actions">
 <?php foreach ($row_actions as $action): ?>
-  <?php echo krudt_html_link($context->url($this_slug, array($action)), $action); ?>
+  <?php echo html_link($context->url($this_slug, array($action)), $action); ?>
 <?php endforeach; ?>
       </td>
 <?php endif; ?>
@@ -90,7 +90,7 @@
   <tfoot>
     <tr>
       <td colspan="<?php e($colspan) ?>">
-<?php echo krudt_paginate($context, $contacts, $page_size) ?>
+<?php echo collection_paginate($context, $contacts, $page_size) ?>
       </td>
     </tr>
   </tfoot>
