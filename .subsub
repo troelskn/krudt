@@ -1,4 +1,4 @@
 [submodule "thirdparty/pdoext"]
-  url = http://pdoext.googlecode.com/svn/trunk
-  path = thirdparty/pdoext
-  revision = 46
+	url = http://pdoext.googlecode.com/svn/trunk
+	path = thirdparty/pdoext
+	revision = 46

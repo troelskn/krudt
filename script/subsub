@@ -123,7 +123,7 @@ class subsub_ModuleSpec {
   function toIni() {
     $s = '[submodule "'.$this->path().'"]';
     foreach ($this->properties as $key => $value) {
-      $s .= "\n  " . $key . " = " . $value;
+      $s .= "\n\t" . $key . " = " . $value;
     }
     return $s;
   }
