@@ -5,6 +5,15 @@ set_include_path(
   . PATH_SEPARATOR . dirname(dirname(__FILE__))
   . PATH_SEPARATOR . dirname(dirname(__FILE__)).'/lib');
 
+// Register thirdparty plugins
+foreach (scandir(dirname(dirname(__FILE__)).'/thirdparty') as $plugin) {
+  if (substr($plugin, 0, 1) !== '.') {
+    set_include_path(
+      get_include_path()
+      .PATH_SEPARATOR.dirname(dirname(__FILE__)).'/thirdparty/'.$plugin.'/lib');
+  }
+}
+
 require_once 'konstrukt/konstrukt.inc.php';
 set_error_handler('k_exceptions_error_handler');
 spl_autoload_register('k_autoload');
