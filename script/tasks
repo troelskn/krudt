@@ -2,7 +2,7 @@
 #TASK Lists all available tasks with short description, then exit.
 for TASK in $(find `dirname $0` -type f -executable)
 do
-	DESCRIPTION=$(grep --perl-regexp '^#TASK (.*)' $TASK | sed s/#TASK\\s*//g)
+	DESCRIPTION=$(grep --perl-regexp '^#TASK (.*)' $TASK | sed 's/#TASK\s*/# /g')
         printf "%-40s " $TASK
 	echo $DESCRIPTION
 done

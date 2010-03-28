@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
-require_once(dirname(__FILE__) . '/../config/global.inc.php');
-$dir_migrations = (dirname(__FILE__) . '/../migrations');
+require_once dirname(__FILE__) . '/../../config/global.inc.php';
+$dir_migrations = (dirname(__FILE__) . '/../../migrations');
 $base_name = date('YmdHis') . '.php';
 $destination_file_name = $dir_migrations . DIRECTORY_SEPARATOR . $base_name;
 

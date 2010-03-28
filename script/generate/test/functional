@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-require_once(dirname(__FILE__) . '/../config/global.inc.php');
+require_once dirname(__FILE__) . '/../../../config/global.inc.php';
 
 $component_name = @$_SERVER['argv'][1];
 $component_name = preg_replace('~^components_~', '', $component_name);
@@ -11,7 +11,7 @@ if (!class_exists($class_name)) {
 }
 
 $base_name = str_replace('_', '/', strtolower($component_name));
-$dir_tests = dirname(dirname(__FILE__)) . '/test/functional';
+$dir_tests = dirname(__FILE__) . '/../../../test/functional';
 $destination_file_name = $dir_tests . DIRECTORY_SEPARATOR . str_replace('/', '_', $base_name) . '.test.php';
 
 if (file_exists($destination_file_name)) {
